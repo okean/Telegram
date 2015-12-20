@@ -22,12 +22,11 @@ namespace
     };
 }
 
-Telegram::Telegram(const int outputPin, const int ditLength)
-    : _outputPin(outputPin)
+Telegram::Telegram(OutDevice &device, const int ditLength)
+    : _device(device)
     , _ditLength(ditLength)
     , _dahLength(ditLength * 3)
 {
-    pinMode(outputPin, OUTPUT);
 }
 
 Telegram::~Telegram()
@@ -78,22 +77,14 @@ void Telegram::outputCode(const char* code) const
     }
 }
 
-void Telegram::outputSymbol(const int len) const
-{
-    digitalWrite(_outputPin, HIGH);
-    delay(len);
-    digitalWrite(_outputPin, LOW);
-}
-
 void Telegram::dit() const
 {
     Serial.print('.');
-    outputSymbol(_ditLength);  
+    _device.outputSymbol(_ditLength);  
 }
 
 void Telegram::dah() const
 {
     Serial.print('-');
-    outputSymbol(_dahLength);  
+    _device.outputSymbol(_dahLength);  
 }
-

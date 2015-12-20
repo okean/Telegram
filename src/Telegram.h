@@ -1,12 +1,16 @@
 #ifndef __TELEGRAM_H__
 #define __TELEGRAM_H__
 
+#include "OutputDevice.h"
+
 namespace Application {
+
+typedef Device::OutputDevice OutDevice;
 
 class Telegram
 {
  public:
-     Telegram(const int outputPin,
+     Telegram(OutDevice &device,
               const int ditLength);
      ~Telegram();
 
@@ -15,14 +19,13 @@ class Telegram
 
  private: // internal helpers
     void outputCode(const char* code) const;
-    void outputSymbol(const int len) const;
     void dit() const;
     void dah() const;   
 
  private: // member variables
-     int _outputPin;
-     int _ditLength;
-     int _dahLength;
+     OutDevice &_device;
+     int     _ditLength;
+     int     _dahLength;
 };
 }; // namespace Application
 

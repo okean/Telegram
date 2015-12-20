@@ -1,21 +1,31 @@
 #include "Telegram.h"
+#include "OutputDevice.h"
+#include "Led.h"
+#include "Speaker.h"
 
 using namespace Application;
+using namespace Application::Device;
 
-const size_t OUTPUT_PIN = 13;
-const size_t DIT_LENGHT = 200;
-const size_t BAUD_RATE  = 9600;
+const size_t outputPin = 13;
+const size_t frequency = 131;
+const size_t ditLenght = 200;
+const size_t baudRate  = 9600;
 
-Telegram telegram(OUTPUT_PIN, DIT_LENGHT);
+Led led(outputPin);
+Speaker speaker(outputPin, frequency);
+
+OutputDevice *ledDevice = &led;
+OutputDevice *speakerDevice = &speaker;
+
+Telegram telegram(*speakerDevice, ditLenght);
  
 void setup()
 {
-    Serial.begin(BAUD_RATE);
+    Serial.begin(baudRate);
 }
 
 void loop()
 { 
-    telegram.sendMessage("Hellow world!");
+    telegram.sendMessage("Hello world!");
     delay(5000);
 }
-
